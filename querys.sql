@@ -25,4 +25,12 @@ WHERE brand_name LIKE '%heineken%';
 
 -- PAYS-BAS
 
+-- Combien de bières ont été vendues lors de chaque transaction ? Afficher les numéros de
+-- ticket, la date de ticket, et le nombre de bières.
+
+SELECT id_ticket, ticket_date, SUM(quantity)
+FROM sale
+    JOIN ticket USING(id_ticket)
+GROUP BY id_ticket
+
 
