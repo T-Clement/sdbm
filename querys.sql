@@ -6,6 +6,13 @@ FROM article;
 SELECT article_name, MAX(purchase_price)
 FROM article;
 
+SELECT article_name, purchase_price
+FROM article
+WHERE purchase_price= (
+    SELECT MAX(purchase_price)
+    FROM article
+)
+
 -- das Echte Märzen / 5.00
 
 
