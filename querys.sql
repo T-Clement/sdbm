@@ -1,4 +1,4 @@
-SELECT COUNT(id_article)
+SELECT COUNT(id_article) AS nb_references
 FROM article;
 
 -- 3922
@@ -6,12 +6,19 @@ FROM article;
 SELECT article_name, MAX(purchase_price)
 FROM article;
 
+
+SELECT article_name, purchase_price
+FROM article
+GROUP BY id_article
+ORDER BY purchase_price DESC
+LIMIT 1;
+
 SELECT article_name, purchase_price
 FROM article
 WHERE purchase_price= (
     SELECT MAX(purchase_price)
     FROM article
-)
+);
 
 -- das Echte Märzen / 5.00
 
@@ -21,7 +28,7 @@ FROM continent
 JOIN country USING(id_continent)
 GROUP BY id_continent
 ORDER BY total DESC
-LIMIT 1
+LIMIT 1;
 
 -- Europe 18
 
@@ -35,26 +42,26 @@ WHERE brand_name LIKE '%heineken%';
 -- Combien de bières ont été vendues lors de chaque transaction ? Afficher les numéros de
 -- ticket, la date de ticket, et le nombre de bières.
 
-SELECT id_ticket, ticket_date, SUM(quantity)
+SELECT id_ticket, ticket_date, SUM(quantity) AS total
 FROM sale
     JOIN ticket USING(id_ticket)
-GROUP BY id_ticket
+GROUP BY id_ticket;
 
 -- Quel est le nombre total de bières vendues jusqu'à présent ?
 
- SELECT SUM(quantity)
- FROM sale
+ SELECT SUM(quantity) AS total_bears_sold
+ FROM sale;
 
 -- 3500044
 
 -- Quelle est la marque de bière la plus vendue (en termes de quantité) ?
 
-SELECT SUM(quantity) AS qty, brand_name
+SELECT brand_name, SUM(quantity) AS qty
 FROM sale
 JOIN article USING (id_article)
 JOIN brand USING (id_brand)
 GROUP BY id_brand
 ORDER BY qty DESC
-LIMIT 1
+LIMIT 1;
 
 -- 57869 BrewDog
