@@ -33,4 +33,21 @@ FROM sale
     JOIN ticket USING(id_ticket)
 GROUP BY id_ticket
 
+-- Quel est le nombre total de bières vendues jusqu'à présent ?
 
+ SELECT SUM(quantity)
+ FROM sale
+
+-- 3500044
+
+-- Quelle est la marque de bière la plus vendue (en termes de quantité) ?
+
+SELECT SUM(quantity) AS qty, brand_name
+FROM sale
+JOIN article USING (id_article)
+JOIN brand USING (id_brand)
+GROUP BY id_brand
+ORDER BY qty DESC
+LIMIT 1
+
+-- 57869 BrewDog
