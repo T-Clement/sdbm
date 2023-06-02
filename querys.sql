@@ -96,23 +96,76 @@ GROUP BY id_brand
 ORDER BY total DESC
 
 
--- 4/ Afficher la quantité totale de bières vendues par continent, en affichant le nom du continent.
+-- 4/ Afficher la quantité totale de bières vendues par continent, en affichant 
+-- le nom du continent.
+
+SELECT SUM(quantity) AS total, continent_name
+FROM sale
+    JOIN article USING(id_article)
+    JOIN brand USING(id_brand)
+    JOIN country USING(id_country)
+    JOIN continent USING(id_continent)
+GROUP BY id_continent
+
+-- 5/ Afficher la moyenne des prix d'achat des articles par type, en indiquant 
+-- le nom du type et la moyenne des prix d'achat.
+
+SELECT type_name, AVG(purchase_price) AS avg_price
+FROM article
+    JOIN type USING(id_type)
+GROUP BY id_type
+
+-- 6/ Afficher la somme des quantités vendues pour chaque couleur de bière, 
+-- en affichant le nom de la couleur et la somme des quantités.
+
+SELECT SUM(quantity) AS total, color_name
+FROM sale
+    JOIN article USING(id_article)
+    JOIN color USING(id_color)
+GROUP BY id_color
+
+
+-- 7/ Afficher le volume total des ventes réalisées pour chaque marque, 
+-- trié par ordre décroissant.
+
+SELECT SUM(volume * quantity) AS vol, brand_name
+FROM sale
+    JOIN article USING(id_article)
+    JOIN brand USING(id_brand)
+GROUP BY id_brand
+ORDER BY vol DESC
+
+-- 3130491 BrewDog
+
+-- 8/ Afficher le prix d'achat moyen des articles pour chaque pays, en indiquant 
+-- le nom du pays et le prix d'achat moyen.
+
+SELECT country_name, AVG(purchase_price)
+FROM article
+    JOIN brand USING(id_brand)
+    JOIN country USING(id_country)
+GROUP BY id_country
+
+
+-- 9/ Afficher le prix d'achat le plus élevé et le prix d'achat le plus bas par 
+-- continent, en précisant le nom du continent.
+
+SELECT MAX(purchase_price) AS max, MIN(purchase_price) AS min, continent_name
+FROM article
+    JOIN brand USING(id_brand)
+    JOIN country USING(id_country)
+    JOIN continent USING(id_continent)
+GROUP BY id_continent
 
 
 
--- 5/ Afficher la moyenne des prix d'achat des articles par type, en indiquant le nom du type et la moyenne des prix d'achat.
+-- 10/ Afficher le nombre total d'articles vendus pour chaque type de bière, 
+-- en affichant le nom du type et le nombre total d'articles vendus.
 
+SELECT type_name, SUM(quantity) AS total
+FROM sale
+    JOIN article USING(id_article)
+    JOIN type USING(id_type)
+GROUP BY id_type
 
--- 6/ Afficher la somme des quantités vendues pour chaque couleur de bière, en affichant le nom de la couleur et la somme des quantités.
-
-
--- 7/ Afficher le volume total des ventes réalisées pour chaque marque, trié par ordre décroissant.
-
-
--- 8/ Afficher le prix d'achat moyen des articles pour chaque pays, en indiquant le nom du pays et le prix d'achat moyen.
-
-
--- 9/ Afficher le prix d'achat le plus élevé et le prix d'achat le plus bas par continent, en précisant le nom du continent.
-
-
--- 10/ Afficher le nombre total d'articles vendus pour chaque type de bière, en affichant le nom du type et le nombre total d'articles vendus.
+--Ale 471382
