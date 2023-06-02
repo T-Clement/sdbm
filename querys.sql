@@ -12,14 +12,6 @@ FROM article;
 SELECT continent_name, COUNT(id_country) AS total
 FROM continent 
 JOIN country USING(id_continent)
-GROUP BY id_country
-ORDER BY total DESC
-LIMIT 1
-
-
-SELECT continent_name, COUNT(id_country) AS total
-FROM continent 
-JOIN country USING(id_continent)
 GROUP BY id_continent
 ORDER BY total DESC
 LIMIT 1
