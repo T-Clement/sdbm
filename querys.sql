@@ -140,7 +140,7 @@ ORDER BY vol DESC
 -- 8/ Afficher le prix d'achat moyen des articles pour chaque pays, en indiquant 
 -- le nom du pays et le prix d'achat moyen.
 
-SELECT country_name, AVG(purchase_price)
+SELECT country_name, AVG(purchase_price) AS avg_price
 FROM article
     JOIN brand USING(id_brand)
     JOIN country USING(id_country)
@@ -173,46 +173,93 @@ GROUP BY id_type
 -- 1/ Quels sont les tickets qui comportent l'article d'ID 500 ?
 -- Afficher le numéro de ticket uniquement.
 
+SELECT id_ticket
+FROM sale
+WHERE id_article = 500
+
+
 
 -- 2/ Quels sont les tickets du 15/01/2017 ?
 -- Afficher le numéro de ticket et la date.
+
+SELECT ticket_date, id_ticket
+FROM ticket
+WHERE ticket_date = "2017-01-15"
 
 
 -- 3/ Quels sont les tickets émis du 15/01/2017 au 17/01/2017 ?
 -- Afficher le numéro de ticket et la date.
 
+SELECT ticket_date, id_ticket
+    FROM ticket
+WHERE ticket_date BETWEEN "2017-01-15" AND "2017-01-17"
 
--- 4/ Quels sont les articles (Code et nom uniquement) apparaissant sur un ticket à au moins 95 exemplaires.
 
+-- 4/ Quels sont les articles (Code et nom uniquement) apparaissant sur un 
+-- ticket à au moins 95 exemplaires.
+
+SELECT id_article, article_name, SUM(quantity) AS total
+    FROM sale
+    JOIN article USING(id_article)
+GROUP BY id_article
+HAVING total >= 95
 
 -- 5/ Quels sont les tickets émis au mois de mars 2017 ?
 -- Afficher le numéro de ticket et la date.
 
+SELECT ticket_date, id_ticket
+FROM ticket
+WHERE ticket_date LIKE "2017-03%"
 
 -- 6/ Quels sont les tickets émis au deuxième trimestre 2017 ?
 -- Afficher le numéro de ticket et la date.
 
+SELECT ticket_date, id_ticket
+FROM ticket
+WHERE ticket_date BETWEEN "2017-04-01" AND "2017-06-30"
 
 -- 7/ Quels sont les tickets émis au mois de mars et juillet 2017 ?
 -- Afficher le numéro de ticket et la date.
 
+SELECT ticket_date, id_ticket
+FROM ticket
+WHERE ticket_date LIKE "2017-03%" OR 
+    ticket_date LIKE "2017-07%"
 
 -- 8/ Afficher la liste de toutes les bières classée par couleur.
 -- Afficher code et nom de bière, nom de la couleur
 
+SELECT  id_article, article_name, color_name
+FROM article
+    JOIN color USING(id_color)
+GROUP BY id_article, id_color
+ORDER BY color_name
+
+
 
 -- 9/ Afficher la liste des bières n'ayant pas de couleur. 
 -- Afficher le code et le nom
+
+SELECT color_name, article_name
+FROM article
+    LEFT JOIN color USING(id_color) 
+WHERE color_name IS NULL
 
 
 
 -- 10/ Lister pour chaque ticket la quantité totale d'articles vendus (en nombre).
 -- Classer par quantité décroissante
 
+SELECT id_ticket, SUM(quantity)
+FROM article
+    JOIN sale USING(id_article)
+    JOIN ticket USING(id_ticket)
+GROUP BY id_ticket
 
 
 -- 11/ Lister chaque ticket pour lequel la quantité totale d'articles vendus est inférieure à 50.
 -- Classer par quantité croissante
+
 
 
 
